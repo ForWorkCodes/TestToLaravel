@@ -13,6 +13,7 @@ class UserOperaion extends Model
         'amount',
         'balance_id',
         'status',
+        'description',
         'action'
     ];
 

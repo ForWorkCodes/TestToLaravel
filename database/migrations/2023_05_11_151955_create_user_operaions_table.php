@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('amount');
             $table->foreignId('balance_id')->references('id')->on('user_balances')->cascadeOnDelete();
             $table->string('status');
+            $table->text('description');
             $table->string('action');
             $table->timestamps();
         });
