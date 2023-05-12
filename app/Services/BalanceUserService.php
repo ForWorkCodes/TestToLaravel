@@ -1,21 +1,13 @@
 <?php
 namespace App\Services;
 
+use App\Events\BalanceChangeEvent;
+use App\Jobs\UpdateUserBalance;
 use App\Models\User;
 use App\Models\UserBalance;
 use Illuminate\Support\Facades\Validator;
 class BalanceUserService
 {
-    /**
-     * @var UserService
-     */
-    protected $userService;
-
-    public function __construct(UserService $service)
-    {
-        $this->userService = $service;
-    }
-
     /**
      * @param ...$array
      * @return User
@@ -40,22 +32,51 @@ class BalanceUserService
         if ($validation->fails())
             throw new \Exception($validation->errors()->first());
 
-        $obUser = $this->userService->findUserByEmail($email);
+        $obUser = UserService::findUserByEmail($email);
 
-        // Событие перед изменением
+        dispatch(new UpdateUserBalance($obUser->id, $type, $amount, $description));
 
-        // Изменить количество бонусов
-
-        // Событие после изменения
-
-//        UserBalance::firstOrCreate([
-//            'user_id' => $obUser->id
-//        ], [
-//            'amount' => $amount,
-//            'status' => 'pending',
-//            'description' => $description,
-//        ]);
         return $obUser;
+    }
+
+    /**
+     * @param $user_id
+     * @return void
+     */
+    public function create($user_id)
+    {
+        UserBalance::create([
+            'user_id' => $user_id,
+            'amount' => 0
+        ]);
+    }
+
+    public static function updateBalanceUser($user_id, $type, $amount, $description)
+    {
+        $balance = UserBalance::where('user_id', $user_id)->first();
+
+        if (!$balance)
+            throw new \Exception("Balance not found");
+
+        $curAmount = (float)$balance->amount;
+        $status = 'success';
+
+        if ($type == 'plus') {
+            $newAmount = $curAmount + $amount;
+        } elseif ($type == 'minus') {
+            $newAmount = $curAmount - $amount;
+
+            if ($newAmount < 0) {
+                $newAmount = 0;
+                $description .= "; Balance can't be negative";
+                $status = "error";
+            }
+        }
+
+        // Обновляем значение amount в модели UserBalance
+        $balance->update(['amount' => $newAmount]);
+
+        event(new BalanceChangeEvent($user_id, $type, $balance->id, $amount, $status, $description));
     }
 }
 ?>

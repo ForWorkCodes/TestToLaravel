@@ -46,7 +46,7 @@ class BalanceChange extends Command
 
             $obUser = $this->balanceService->change($email, $type, $amount, $description);
 
-            $this->info('Balance changed for ' . $obUser->name);
+            $this->info('Balance change request has been sent. For user ' . $obUser->name);
         } catch (\Exception $e) {
             $this->error("Error when create user: \n" . $e->getMessage());
         }

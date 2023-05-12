@@ -8,11 +8,21 @@ use Illuminate\Support\Facades\Validator;
 class UserService
 {
     /**
+     * @var BalanceUserService
+     */
+    protected $balanceService;
+
+    public function __construct(BalanceUserService $service)
+    {
+        $this->balanceService = $service;
+    }
+
+    /**
      * @param $email
      * @return User
      * @throws \Exception
      */
-    public function findUserByEmail($email)
+    public static function findUserByEmail($email)
     {
         $obUser = User::where('email', $email)->first();
 
@@ -49,6 +59,9 @@ class UserService
             'email' => $email,
             'password' => Hash::make($password),
         ]);
+
+        // Перевести на событие
+        $this->balanceService->create($obUser->id);
 
         return $obUser;
     }
