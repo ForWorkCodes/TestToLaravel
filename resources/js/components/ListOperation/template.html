@@ -1,0 +1,16 @@
+<main>
+    <div class="container marketing">
+        <div class="row" v-if="user_name">
+            <div class="col-lg-4" v-for="operaion in operations">
+                <div class="operaion">
+                    <div>Начисляется: <span>{{ operaion.amount }}</span></div>
+                    <div>Тип: <span>{{ operaion.action }}</span></div>
+                    <div>Описание: <span>{{ operaion.description }}</span></div>
+                    <div>Статус: <span>{{ operaion.status }}</span></div>
+                    <div>Дата: <span>{{ operaion.created_at }}</span></div>
+                </div>
+            </div>
+        </div>
+        <a href="/logout" v-if="user_name">Выход</a>
+    </div>
+</main>

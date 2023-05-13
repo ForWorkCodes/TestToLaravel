@@ -1,0 +1,28 @@
+<header data-bs-theme="dark" class="mb-3">
+    <div class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0" v-if="user_name">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page"><button class="btn btn-primary" @click="toggleSortOrder">Сортировка</button></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"><input class="form-control me-2" type="search" @input="toggleFilter" placeholder="Search" aria-label="Search"></a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" v-if="!user_name" @submit.prevent="submitForm">
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Email" class="form-control" v-model="email" required>
+                    </div>
+                    <div class="form-group mx-sm-3">
+                        <input type="password" class="form-control" id="password" placeholder="password" v-model="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <div class="d-flex text-white" v-if="user_name">
+                    {{ user_name }}: {{ balance }} Попугаев
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
