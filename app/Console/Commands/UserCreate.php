@@ -43,6 +43,7 @@ class UserCreate extends Command
             $email = $this->argument('email');
             $password = $this->argument('password');
 
+            // Нужно добавлять по login, не проблема, просто не сразу обратил внимание, но миграции сделал. Если нужно, то можно переделать
             $user = $this->userService->create($name, $email, $password);
 
             $this->info('User created successfully. ID = ' . $user->id);

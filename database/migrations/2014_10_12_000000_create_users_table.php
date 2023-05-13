@@ -11,6 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Нужно добавлять по login, не проблема, просто не сразу обратил внимание, но миграции сделал. Если нужно, то можно переделать
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');

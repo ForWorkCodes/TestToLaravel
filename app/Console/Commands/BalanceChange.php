@@ -46,6 +46,7 @@ class BalanceChange extends Command
 
             $obUser = $this->balanceService->change($email, $type, $amount, $description);
 
+            // Нужно добавлять по login, не проблема, просто не сразу обратил внимание, но миграции сделал. Если нужно, то можно переделать
             $this->info('Balance change request has been sent. For user ' . $obUser->name);
         } catch (\Exception $e) {
             $this->error("Error when create user: \n" . $e->getMessage());

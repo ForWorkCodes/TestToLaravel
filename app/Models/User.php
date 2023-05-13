@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    // Нужно добавлять по login, не проблема, просто не сразу обратил внимание, но миграции сделал. Если нужно, то можно переделать
 
     /**
      * The attributes that should be hidden for serialization.
