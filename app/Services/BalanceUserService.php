@@ -53,7 +53,7 @@ class BalanceUserService
 
     public static function updateBalanceUser($user_id, $type, $amount, $description)
     {
-        $balance = UserBalance::where('user_id', $user_id)->first();
+        $balance = UserBalance::where('user_id', $user_id)->first(); // Также можно через модель пользователя
 
         if (!$balance)
             throw new \Exception("Balance not found");

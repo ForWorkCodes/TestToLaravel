@@ -60,7 +60,7 @@ class UserService
             'password' => Hash::make($password),
         ]);
 
-        // Перевести на событие
+        // Можно перевести на событие
         $this->balanceService->create($obUser->id);
 
         return $obUser;
